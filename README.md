@@ -8,7 +8,7 @@ To be added
 
 # Deploy
 
-1. Setup `.env` file, see `.env.example`. Leave last two vars blank, you will set up it after deploying contracts.
+1. Setup `.env` file, see `.env.example`. Leave last three vars blank, you will set up it after deploying contracts.
 2. Run `npm run deploy` to deploy Nft membership pass and governance token contracts. You can also configure them in `deploy.ts` and `scripts.ts` at `src/utils/`. **Set up last blank env vars after deploying.**
 3. To mint more tokens: input amount in `src/utils/mint.ts` and run `npm run mint`.
 4. To airdrop tokens to DAO members: input amount in `src/utils/airdrop.ts` and run `npm run airdrop`.

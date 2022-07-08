@@ -56,9 +56,8 @@ export default class DeployScripts {
 
   mintGovTokens = async (amount: number) => {
     const tokenContractAddress = process.env.REACT_APP_TOKEN_CONTRACT;
-    const tokenContract = tokenContractAddress
-      ? sdk.getToken(tokenContractAddress)
-      : this.tokenContract;
+    const tokenContract =
+      this.tokenContract ?? sdk.getToken(tokenContractAddress);
     await tokenContract.mintToSelf(amount);
     const totalSupply = await tokenContract.totalSupply();
     console.log(
@@ -117,7 +116,27 @@ export default class DeployScripts {
     this.voteContract = sdk.getVote(voteContractAddress);
   }
 
-  async deploy(tokenAmountToMint = 10000) {
+  private async setupVoteTreasury(communityTreasuryPercent: number) {
+    if (communityTreasuryPercent < 0 || communityTreasuryPercent > 100) {
+      throw new Error("Provide valid percent value");
+    }
+    const token = this.tokenContract;
+    await token.roles.grant("minter", this.voteContract.getAddress());
+    const onwerBalance = Number(
+      (await token.balanceOf(await sdk.wallet.getAddress())).displayValue
+    );
+    const communityTreasuryAmount =
+      onwerBalance * (communityTreasuryPercent / 100);
+    await token.transfer(
+      this.voteContract.getAddress(),
+      communityTreasuryAmount
+    );
+    console.log(
+      "Transfered " + communityTreasuryAmount + " tokens to treasury"
+    );
+  }
+
+  async deploy(tokenAmountToMint = 10000, communityTreasuryPercent = 50) {
     const deployNfts = async () => {
       await this.deployMembershipContract();
       await this.initNFTMetadata();
@@ -129,8 +148,10 @@ export default class DeployScripts {
     };
     const deployVote = async () => {
       await this.deployVoteContract();
+      await this.setupVoteTreasury(communityTreasuryPercent);
     };
-    await Promise.all([deployNfts(), deployToken(), deployVote()]);
+    await Promise.all([deployNfts(), deployToken()]);
+    await deployVote();
     console.log(
       "Add this to REACT_APP_DROP_CONTRACT in .env file: " +
         this.nftContract.getAddress()
