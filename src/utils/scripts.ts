@@ -2,11 +2,12 @@ import fs from "fs";
 import path from "path";
 import { ethers } from "ethers";
 import sdk from "./initSdk";
-import { EditionDrop, Token } from "@thirdweb-dev/sdk";
+import { EditionDrop, Token, Vote } from "@thirdweb-dev/sdk";
 
 export default class DeployScripts {
   private nftContract: EditionDrop;
   private tokenContract: Token;
+  private voteContract: Vote;
 
   private deployMembershipContract = async () => {
     const contractAddress = await sdk.deployer.deployEditionDrop({
@@ -103,17 +104,33 @@ export default class DeployScripts {
     } else console.log("No addresses to transfer");
   };
 
+  private async deployVoteContract() {
+    const voteContractAddress = await sdk.deployer.deployVote({
+      name: "DegenDAO",
+      voting_token_address: this.tokenContract?.getAddress(),
+      voting_period_in_blocks: 6570,
+      proposal_token_threshold: 500,
+      voting_delay_in_blocks: 0,
+      voting_quorum_fraction: 10,
+    });
+    console.log("Vote contract deployed: " + voteContractAddress);
+    this.voteContract = sdk.getVote(voteContractAddress);
+  }
+
   async deploy(tokenAmountToMint = 10000) {
     const deployNfts = async () => {
       await this.deployMembershipContract();
       await this.initNFTMetadata();
       await this.setConditions();
     };
-    const deployTokens = async () => {
+    const deployToken = async () => {
       await this.deployGovToken();
       await this.mintGovTokens(tokenAmountToMint);
     };
-    await Promise.all([deployNfts(), deployTokens()]);
+    const deployVote = async () => {
+      await this.deployVoteContract();
+    };
+    await Promise.all([deployNfts(), deployToken(), deployVote()]);
     console.log(
       "Add this to REACT_APP_DROP_CONTRACT in .env file: " +
         this.nftContract.getAddress()
@@ -121,6 +138,10 @@ export default class DeployScripts {
     console.log(
       "Add this to REACT_APP_TOKEN_CONTRACT in .env file: " +
         this.tokenContract.getAddress()
+    );
+    console.log(
+      "Add this to REACT_APP_VOTE_CONTRACT in .env file: " +
+        this.voteContract.getAddress()
     );
     console.log("Call npm run airdrop to airdrop tokens to nft pass minters");
   }
