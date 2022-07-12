@@ -16,21 +16,6 @@ export default function HoldersList(props: {
     })();
   }, []);
 
-  // const sortedHolders = useMemo(async () => {
-  //   const daoMebers = await editionDrop.history.getAllClaimerAddresses(0);
-  //   const members = await Promise.all(
-  //     daoMebers?.map(async (address) => {
-  //       return { address, balance: await token.balanceOf(address) };
-  //     })
-  //   );
-  //   members.sort((a, b) => {
-  //     if (b.balance.value.gt(a.balance.value)) return 1;
-  //     else if (a.balance.value.gt(b.balance.value)) return -1;
-  //     else return 0;
-  //   });
-  //   return members.slice(0, 6);
-  // }, [editionDrop.history]);
-
   const sortedHolders = useMemo(async () => {
     const tokenHolders = await token.history.getAllHolderBalances();
     tokenHolders?.sort((a, b) => {
@@ -61,38 +46,42 @@ export default function HoldersList(props: {
   return (
     <div className="flex-box">
       <p>Top-5 $DEGEN holders in DegenDAO</p>
-      <table className="holders-table">
-        <thead>
-          <tr>
-            <td>Address</td>
-            <td>Amount</td>
-          </tr>
-        </thead>
-        <tbody>
-          {holders.length ? (
-            holders.map((holder) => {
-              return (
-                <tr key={holder?.address}>
-                  <td>
-                    <a
-                      className={"address-link"}
-                      href={`https://rinkeby.etherscan.io/address/${holder?.address}`}
-                    >
-                      {cutAddress(holder?.address)}
-                      {/* {holder?.address} */}
-                    </a>
-                  </td>
-                  <td>{holder?.balance}</td>
-                </tr>
-              );
-            })
-          ) : (
+      <div
+        className="card flex-box"
+        style={{ width: "100%", boxSizing: "border-box" }}
+      >
+        <table className="holders-table">
+          <thead>
             <tr>
-              <td>Fetching data...</td>
+              <td>Address</td>
+              <td>Amount</td>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {holders.length ? (
+              holders.map((holder) => {
+                return (
+                  <tr key={holder?.address}>
+                    <td>
+                      <a
+                        className={"address-link"}
+                        href={`https://rinkeby.etherscan.io/address/${holder?.address}`}
+                      >
+                        {cutAddress(holder?.address)}
+                      </a>
+                    </td>
+                    <td>{holder?.balance}</td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td>Fetching data...</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

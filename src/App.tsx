@@ -10,7 +10,9 @@ import {
   useToken,
 } from "@thirdweb-dev/react";
 import MintButton from "./MintButton";
+import Vote from "./Vote";
 import HoldersList from "./HoldersList";
+import ReadyProposals from "./ReadyProposals";
 
 function App() {
   const [networkData, switchNetwork] = useNetwork();
@@ -97,8 +99,12 @@ function App() {
                 />
               </div>
             ) : (
-              <div>
-                <HoldersList editionDrop={editionDrop} token={token} />
+              <div className={"dashboard-section flex-box"}>
+                <div>
+                  <HoldersList editionDrop={editionDrop} token={token} />
+                  <ReadyProposals />
+                </div>
+                <Vote />
               </div>
             )}
           </div>

@@ -31,7 +31,8 @@
     "eject": "react-scripts eject",
     "airdrop": "npx ts-node src/utils/airdrop.ts",
     "mint": "npx ts-node src/utils/mint.ts",
-    "deploy": "npx ts-node src/utils/deploy.ts"
+    "deploy": "npx ts-node src/utils/deploy.ts",
+    "proposals": "npx ts-node src/utils/create-proposals.ts"
   },
   "eslintConfig": {
     "extends": [

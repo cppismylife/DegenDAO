@@ -51,6 +51,7 @@ export default class DeployScripts {
       primary_sale_recipient: ethers.constants.AddressZero,
     });
     this.tokenContract = sdk.getToken(address);
+    this.tokenContract.delegateTo(await sdk.wallet.getAddress());
     console.log("Token contract deployed");
   };
 

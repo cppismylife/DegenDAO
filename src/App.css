@@ -41,12 +41,20 @@
   margin: 20px;
 }
 
-.mint-button {
-  font-size: 2rem;
+button {
   color: #243558;
   border: 2px solid #243558;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.mint-button {
+  font-size: 2rem;
+}
+
+.vote-button,
+.exec-button {
+  font-size: 1.5rem;
 }
 
 .App-header {
@@ -76,14 +84,12 @@
   font-style: italic;
 }
 
-.holders-table {
+.card {
   color: #243558;
   background: white;
-  font-size: 1.5rem;
-  border: 2px solid #243558;
+  border: 2px solid #4e76c5;
   border-radius: 8px;
   padding: 15px;
-  width: 35vw;
 }
 
 .address-link {
@@ -94,4 +100,30 @@
 
 .address-link:hover {
   text-decoration: underline;
+}
+
+.dashboard-section {
+  padding: 20px 20px 0 20px;
+  flex-direction: row;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+.holders-table {
+  margin: 0;
+}
+
+.proposal {
+  margin-bottom: 20px;
+  width: 55vw;
+  box-sizing: border-box;
+}
+
+.proposal-description {
+  margin: 10px 0 20px 0;
+}
+
+.flex-buttons {
+  display: flex;
+  justify-content: space-around;
 }
