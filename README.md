@@ -2,10 +2,6 @@
 
 This is a DegenDAO, where members can know about some upcoming shitty nft mints; put thier funds in the pool to buy a top blue-chip nft just for flip following any influencers' insides. Users can access DAO by holding a NFT membership pass(ERC-1155), which users can mint on the website. As usual there is a governance token $DEGEN used for voting in proposals.
 
-## On-chain DAO pool
-
-To be added
-
 # Deploy
 
 1. Setup `.env` file, see `.env.example`. Leave last three vars blank, you will set up it after deploying contracts.
