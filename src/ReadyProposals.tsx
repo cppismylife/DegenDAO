@@ -25,7 +25,7 @@ export default function ReadyProposals() {
           <div className="card">
             {execProposals.map((proposal, index) => {
               return (
-                <div>
+                <div key={index}>
                   <p>{proposal.description}</p>
                   <button
                     className={"exec-button"}

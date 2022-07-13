@@ -43,7 +43,7 @@ function App() {
         if (balance.toNumber()) setMemberStatus(true);
         else setMemberStatus(false);
       });
-    }
+    } else setMemberStatus(false);
   }, [networkData, address, editionDrop]);
 
   if (!address) {

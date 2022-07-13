@@ -104,6 +104,14 @@ export default class DeployScripts {
     } else console.log("No addresses to transfer");
   };
 
+  async revokeAdminRoles() {
+    const token =
+      this.tokenContract ?? sdk.getToken(process.env.REACT_APP_TOKEN_CONTRACT);
+    await token.roles.revoke("admin", await sdk.wallet.getAddress());
+    await token.roles.revoke("minter", await sdk.wallet.getAddress());
+    console.log("Admin roles revoked");
+  }
+
   private async deployVoteContract() {
     const voteContractAddress = await sdk.deployer.deployVote({
       name: "DegenDAO",
@@ -136,8 +144,16 @@ export default class DeployScripts {
       "Transfered " + communityTreasuryAmount + " tokens to treasury"
     );
   }
-
-  async deploy(tokenAmountToMint = 10000, communityTreasuryPercent = 50) {
+  /**
+   *  @param tokenAmountToMint How much tokens do you want to mint initially to your wallet wallet
+   *  @param communityTreasuryPercent What percent of minted tokens you want to transfer to community treasury
+   *  @param revokeRoles Do you want to revoke your admin role in token contract
+   */
+  async deploy(
+    tokenAmountToMint = 10000,
+    communityTreasuryPercent = 50,
+    revokeRoles = true
+  ) {
     const deployNfts = async () => {
       await this.deployMembershipContract();
       await this.initNFTMetadata();
@@ -146,6 +162,7 @@ export default class DeployScripts {
     const deployToken = async () => {
       await this.deployGovToken();
       await this.mintGovTokens(tokenAmountToMint);
+      if (revokeRoles) await this.revokeAdminRoles();
     };
     const deployVote = async () => {
       await this.deployVoteContract();
