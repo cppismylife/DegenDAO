@@ -12,8 +12,8 @@ export default function ReadyProposals() {
     })();
   }, []);
 
-  const executeProposal = (id: string, index: number) => {
-    voteContract.execute(id);
+  const executeProposal = async (id: string, index: number) => {
+    await voteContract.execute(id);
     setExecProposals(execProposals.slice().splice(index, 1));
   };
 

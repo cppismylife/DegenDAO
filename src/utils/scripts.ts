@@ -117,7 +117,7 @@ export default class DeployScripts {
       name: "DegenDAO",
       voting_token_address: this.tokenContract?.getAddress(),
       voting_period_in_blocks: 6570,
-      proposal_token_threshold: 500,
+      proposal_token_threshold: 0,
       voting_delay_in_blocks: 0,
       voting_quorum_fraction: 10,
     });
