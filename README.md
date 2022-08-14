@@ -2,7 +2,7 @@
 
 This is a DegenDAO, where members can know about some upcoming shitty nft mints; put thier funds in the pool to buy a top blue-chip nft just for flip following any influencers' insides. Users can access DAO by holding a NFT membership pass(ERC-1155), which users can mint on the website. As usual there is a governance token $DEGEN used for voting in proposals.
 
-Proposals can be created just using `npm run proposals`, there is no interface for it for now.
+Proposals can be created just using `npm run proposals`, there is no interface for this now.
 
 # Deploy
 
